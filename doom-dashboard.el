@@ -7,7 +7,11 @@
 ;;; Code:
 
 ;; TODO remove the original '*fallback*' buffer logic
+;; TODO introduce a `transient' menu and more single key bindings
 ;; we have our new
+
+;; TODO make the working directory of the dashboard the 'user-init-dir'
+;; TODO make sure that the scratch buffer doesnt load at all
 
 ;; FIX modeline right section
 ;; FIX it looks weird when corfu autocomplete if '*doom*' buffer opened in another window 
@@ -214,6 +218,12 @@ PLIST can have the following properties:
 ;;
 ;;; Bootstrap
 
+(defun +doom-dashboard-set-to-user-init-dir ()
+  (interactive)
+  "Set the working directory of the Doom dashboard to the directory of `user-init-file`."
+  (with-current-buffer (doom-fallback-buffer)
+    (setq-local default-directory (file-name-directory user-init-file))))
+
 (defun +doom-dashboard-init-h ()
   "Initializes Doom's dashboard."
   (interactive)
@@ -244,7 +254,7 @@ PLIST can have the following properties:
       (add-hook 'persp-activated-functions #'+doom-dashboard-reload-maybe-h))
     (add-hook 'persp-before-switch-functions #'+doom-dashboard--persp-record-project-h)))
 
-(add-hook 'doom-init-ui-hook #'+doom-dashboard-init-h 'append)
+;; (add-hook 'doom-init-ui-hook #'+doom-dashboard-init-h 'append)
 
 ;;
 ;;; Faces
@@ -311,9 +321,10 @@ PLIST can have the following properties:
 
 ;; KEYBINDS
 
+(define-key +doom-dashboard-mode-map (kbd "l") 'push-button)
 (define-key +doom-dashboard-mode-map (kbd "C-x C-l") 'split-init-directory)
 (define-key +doom-dashboard-mode-map (kbd "c") 'compile)
-(define-key +doom-dashboard-mode-map (kbd "C-x k") 'previous-buffer)
+;; (define-key +doom-dashboard-mode-map (kbd "C-x k") 'previous-buffer)
 (define-key +doom-dashboard-mode-map [left-margin mouse-1] 'ignore)
 (define-key +doom-dashboard-mode-map [remap forward-button] '+doom-dashboard/forward-button)
 (define-key +doom-dashboard-mode-map [remap backward-button] '+doom-dashboard/backward-button)
@@ -629,6 +640,7 @@ What it is set to is controlled by `+doom-dashboard-pwd-policy'."
          (if (display-graphic-p)
              "\n\n"
            "\n"))))))
+
 
 (defun doom-dashboard-widget-footer ()
   (insert

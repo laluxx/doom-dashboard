@@ -1,9 +1,5 @@
 # DOOM DASHBOARD
 
-This is not part of doom-emacs.
-This is standalone package that can be used
-in standard GNU emacs
-
 ```
  =================     ===============     ===============   ========  ========
  \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
@@ -25,3 +21,21 @@ in standard GNU emacs
  \   _-'                                                                `-_   /
  `''                                                                      ``' 
 ```
+
+This is not part of doom-emacs.
+This is standalone package that can be used
+in standard GNU emacs
+
+how to install:
+``` shell
+git clone https://github.com/laluxx/doom-dashboard.git ~/.config/emacs/lisp/doom-dashboard
+```
+
+and in the init.el:
+``` emacs-lisp
+(use-package doom-dashboard
+    :load-path "~/.config/emacs/lisp/doom-dashboard"
+    :hook
+    (after-init . +doom-dashboard-init-h))
+```
+
